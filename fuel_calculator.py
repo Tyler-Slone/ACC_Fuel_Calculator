@@ -1,72 +1,104 @@
 import math
-#* Fuel Calculation based on race duration(laps or time), fuel consumption, and laptime
+import os
+#* Fuel Calculation based on number of pitstops, race length(time or laps), fuel consumption, and laptime
 #* Presents calculation for a Safe(full formation lap) or Reccomended and displays # of laps
 
-# TODO: Add pitstop functionality
-# TODO: Use match to simplify maybe
+# TODO: Add master input redundancies and clean up structure
+# TODO: Equation simplification
+# TODO: Add feature to take fuel tank size into account
 
 
-#List of variables for reminder
-time = 0
-laps = 0
-fuel_consumption = 0
-laptime = 0
-lap_total = 0
-safe = 0
-recc = 0
+#* Terminal line seperation
+def line_seperation():
+    width = os.get_terminal_size().columns
+    print('=' * width)
 
 
-#Calculation for fuel based on number of laps
+#* Fuel based on number of laps
 def lap_based_fuel():
     while True:
         try:
+            pitstops = int(input('Number of pitstops(Input 0 if none): '))
             laps = int(input('Number of laps: '))
-            fuel_consumption = int(input('Fuel per lap: '))
+            fuel_consumption = float(input('Fuel per lap: '))
             break
+
         except:
             print('Please enter a numeric value.')
+        
+    if pitstops.is_integer() and pitstops > 0:
+        lap_total = laps
+        safe = math.ceil((((laps * fuel_consumption) + (fuel_consumption * 3)) / (pitstops + 1)))
+        reccomended = math.ceil((((laps * fuel_consumption) + fuel_consumption) / (pitstops + 1)))
+
+        line_seperation()
+        print(f'Total laps: {lap_total}\n')
+        print(f'Safe fuel per stint(Formation lap): {safe} liters\n')
+        print(f'Reccomended fuel: {reccomended} liters')
+        line_seperation()
+        quit
+
+    else:
+        lap_total = laps
+        safe = math.ceil((laps * fuel_consumption) + (fuel_consumption * 3))
+        reccomended = math.ceil((laps * fuel_consumption) + fuel_consumption)
+
+        line_seperation()
+        print(f'Total laps: {lap_total}\n')
+        print(f'Safe fuel(Full formation lap): {safe} liters\n')
+        print(f'Reccomended fuel: {reccomended} liters')
+        line_seperation()
+        quit
 
 
-    lap_total = laps
-    safe = math.ceil((laps * fuel_consumption) + (fuel_consumption * 3))
-    recc = math.ceil((laps * fuel_consumption) + fuel_consumption)
-
-    print(f'Total Laps: {lap_total}\n Safe(Full formation lap): {safe} liters\n Reccomended Fuel: {recc} liters')
-
-
-#Calculation for fuel based on race time
+#* Fuel based on race time
 def time_based_fuel():
     while True:
         try:
+            pitstops = int(input('Number of pitstops(Input 0 if none): '))
             time = int(input('Length of race(in minutes): ')) * 60
             fuel_consumption = float(input('Fuel per lap: '))
             minutes, seconds = input('Laptime(minutes:seconds): ').split(':')
             laptime = ((int(minutes)) * 60) + int(seconds)
             break
+
         except:
             print('Please enter a numeric value or check you input values correctly')
+        
+    if pitstops.is_integer() and pitstops > 0:
+        lap_total = math.ceil(time/ laptime)
+        safe = math.ceil(((lap_total * fuel_consumption) + (fuel_consumption * 3) / (pitstops + 1)))
+        reccomended = math.ceil(((lap_total * fuel_consumption) + fuel_consumption) / (pitstops + 1))
 
-    lap_total = math.ceil(time / laptime)
-    safe = math.ceil((lap_total * fuel_consumption) + (fuel_consumption * 3))
-    recc = math.ceil((lap_total * fuel_consumption) + fuel_consumption)
+        line_seperation()
+        print(f'Total Laps: {lap_total}\n')
+        print(f'Safe fuel per stint(Full formation lap): {safe} liters\n')
+        print(f'Reccomended fuel per stint: {reccomended} liters')
+        line_seperation()
+        quit
 
-    print(laptime)
-    print(f'Total Laps: {lap_total}\n Safe(Full formation lap): {safe} liters\n Reccomended Fuel: {recc} liters')
-    quit
+    else:
+        line_seperation()
+        print(f'Total Laps: {lap_total}\n')
+        print(f'Safe fuel(Full formation lap): {safe} liters\n')
+        print(f'Reccomended fuel: {reccomended} liters')
+        line_seperation()
+        quit
 
 
-#Master executable
+#* Master executable
 def master():
-    calc = str(input('Is this a timed or lap race? ')).lower()
-    if calc == 'timed':
+    race_type = str(input('Is this a timed or lap race? ')).lower()
+    
+    if race_type == 'timed':
         time_based_fuel()
         quit()
-    if calc == 'lap':
+    if race_type == 'lap':
         lap_based_fuel()
         quit()
     else:
         print('Please enter a valid input.')
 
 
-#Runs program
+#* Runs program
 master()
