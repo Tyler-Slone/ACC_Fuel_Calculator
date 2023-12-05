@@ -3,9 +3,9 @@ import os
 #* Fuel Calculation based on number of pitstops, race length(time or laps), fuel consumption, and laptime
 #* Presents calculation for a Safe(full formation lap) or Reccomended and displays # of laps
 
-# TODO: Add master input redundancies and clean up structure
 # TODO: Equation simplification
 # TODO: Add feature to take fuel tank size into account
+# TODO: Adjust safe fuel calculation
 
 
 #* Terminal line seperation
@@ -91,18 +91,23 @@ def time_based_fuel():
 
 
 #* Master executable
-def master():
-    race_type = str(input('Is this a timed or lap race? ')).lower()
-    
-    if race_type == 'timed':
-        time_based_fuel()
-        quit()
-    if race_type == 'lap':
-        lap_based_fuel()
-        quit()
-    else:
-        print('Please enter a valid input.')
+def main():
+    while True:
+        race_type = str(input('Is this a timed or lap race? ')).lower()
+
+        if race_type == 'timed':
+            time_based_fuel()
+            break
+        elif race_type == 'lap':
+            lap_based_fuel()
+            break
+        elif race_type == 'quit':
+            break
+        else:
+            print('Please enter timed, lap, or quit.')
+        quit
 
 
 #* Runs program
-master()
+if __name__ == '__main__':
+    main()
