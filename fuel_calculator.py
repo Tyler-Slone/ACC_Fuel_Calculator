@@ -66,9 +66,9 @@ def time_based_fuel():
             print('Please enter a numeric value or check you input values correctly')
         
     if pitstops.is_integer() and pitstops > 0:
-        lap_total = math.ceil(time/ laptime)
+        lap_total = math.ceil(time / laptime)
         safe = math.ceil(((lap_total * fuel_consumption) + (fuel_consumption * 3) / (pitstops + 1)))
-        reccomended = math.ceil(((lap_total * fuel_consumption) + fuel_consumption) / (pitstops + 1))
+        reccomended = math.ceil((((lap_total * fuel_consumption) + fuel_consumption)) / (pitstops + 1))
 
         line_seperation()
         print(f'Total Laps: {lap_total}\n')
@@ -78,6 +78,10 @@ def time_based_fuel():
         quit
 
     else:
+        lap_total = math.ceil(time / laptime)
+        safe = math.ceil((lap_total * fuel_consumption) + (fuel_consumption * 3))
+        reccomended = math.ceil((lap_total * fuel_consumption) + fuel_consumption)
+
         line_seperation()
         print(f'Total Laps: {lap_total}\n')
         print(f'Safe fuel(Full formation lap): {safe} liters\n')
