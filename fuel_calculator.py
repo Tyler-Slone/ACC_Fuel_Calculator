@@ -1,9 +1,7 @@
 import math
 import os
-#* Fuel Calculation based on number of pitstops, race length(time or laps), fuel consumption, and laptime
-#* Presents calculation for a Safe(full formation lap) or Reccomended and displays # of laps
-
-#TODO: Look over wording
+#* Fuel calculation based on number of pitstops, race length(time or laps), fuel consumption, laptime, and fuel tank capacity
+#* Displays a safe and recommended quantity of fuel and displays # of laps
 
 
 #* Global vars
@@ -51,9 +49,9 @@ def lap_based_fuel():
 
     else:
         line_seperation()
-        print(f'Total laps: {laps}\n')
-        print(f'Safe fuel per stint(Formation lap): {safe} liters\n')
-        print(f'Recommended fuel: {recommended} liters')
+        print(f'Number of laps: {laps}\n')
+        print(f'Safe amount of fuel per stint: {safe} liters\n')
+        print(f'Recommended amount of fuel per stint: {recommended} liters')
         line_seperation()
 
 
@@ -63,19 +61,21 @@ def small_fueltank_lap():
     global pitstops
     global laps
     global fuel_consumption
+    
+    line_seperation()
+    print(f'Your fueltank doesnt have enough capacity for {pitstops} pitstops. Instead use the information below.\n')
+    line_seperation()
 
-    print(f'Your fueltank doesnt have enough capacity for {pitstops} pitstops. Heres how many pitstops and how much fuel you should get.\n')
-
-    minimum_fuel = math.ceil(laps * fuel_consumption)
-    pitstops = math.ceil(minimum_fuel / fuel_tank_size)
-    safe = math.ceil((minimum_fuel + (fuel_consumption * 2.5)) / (pitstops + 1))
-    recommended = math.ceil((minimum_fuel + fuel_consumption) / (pitstops + 1))
+    minimum = math.ceil(laps * fuel_consumption)
+    pitstops = math.ceil(minimum / fuel_tank_size)
+    safe = math.ceil((minimum + (fuel_consumption * 2.5)) / (pitstops + 1))
+    recommended = math.ceil((minimum + fuel_consumption) / (pitstops + 1))
 
     line_seperation()
-    print(f'Total laps: {laps}\n')
+    print(f'Number of laps: {laps}\n')
     print(f'Number of pitstops: {pitstops}\n')
-    print(f'Safe fuel per stint(Formation lap): {safe} liters\n')
-    print(f'Recommended fuel: {recommended} liters')
+    print(f'Safe amount of fuel per stint: {safe} liters\n')
+    print(f'Recommended amount of fuel per stint: {recommended} liters')
     line_seperation()
 
 
@@ -112,9 +112,9 @@ def time_based_fuel():
     
     else:
         line_seperation()
-        print(f'Total Laps: {lap_total}\n')
-        print(f'Safe fuel per stint(Full formation lap): {safe} liters\n')
-        print(f'Recommended fuel per stint: {recommended} liters')
+        print(f'Number of laps: {lap_total}\n')
+        print(f'Safe amount of fuel per stint: {safe} liters\n')
+        print(f'Recommended amount of fuel per stint: {recommended} liters')
         line_seperation()
 
 
@@ -127,19 +127,21 @@ def small_fueltank_time():
     global time
     global laptime
 
-    print(f'Your fueltank doesnt have enough capacity for {pitstops} pitstops. Heres how many pitstops and how much fuel you should get.\n')
+    line_seperation()
+    print(f'Your fueltank doesnt have enough capacity for {pitstops} pitstops. Instead use information below.\n')
+    line_seperation()
 
     lap_total = math.ceil(time / laptime)
-    minimum_fuel = math.ceil(lap_total * fuel_consumption)
-    pitstops = math.ceil(minimum_fuel / fuel_tank_size)
-    safe = math.ceil((minimum_fuel + (fuel_consumption * 2.5)) / (pitstops + 1))
-    recommended = math.ceil((minimum_fuel + fuel_consumption) / (pitstops + 1))
+    minimum = math.ceil(lap_total * fuel_consumption)
+    pitstops = math.ceil(minimum / fuel_tank_size)
+    safe = math.ceil((minimum + (fuel_consumption * 2.5)) / (pitstops + 1))
+    recommended = math.ceil((minimum + fuel_consumption) / (pitstops + 1))
 
     line_seperation()
-    print(f'Total laps: {lap_total}\n')
+    print(f'Number of laps: {lap_total}\n')
     print(f'Number of pitstops: {pitstops}\n')
-    print(f'Safe fuel per stint(Formation lap): {safe} liters\n')
-    print(f'Recommended fuel: {recommended} liters')
+    print(f'Safe amount of fuel per stint: {safe} liters\n')
+    print(f'Recommended amount of fuel per stint: {recommended} liters')
     line_seperation()
 
 
